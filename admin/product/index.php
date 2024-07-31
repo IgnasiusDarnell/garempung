@@ -11,10 +11,27 @@ $products = getAllProducts();
     <?php foreach ($products as $product) : ?>
         <div class="col-md-4 mb-4">
             <div class="card">
-                <?php if ($product['file_type'] === 'image') : ?>
-                    <img src="<?= $product['file_name'] ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 200px; object-fit: cover;">
+                <?php if (!empty($product['images'])) : ?>
+                    <!-- Carousel for images -->
+                    <div id="carousel<?= $product['id'] ?>" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php foreach ($product['images'] as $index => $image) : ?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img src="<?= htmlspecialchars($image) ?>" class="d-block w-100" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 200px; object-fit: cover;">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel<?= $product['id'] ?>" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel<?= $product['id'] ?>" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 <?php elseif ($product['file_type'] === 'video') : ?>
-                    <video src="<?= $product['file_name'] ?>" class="card-img-top" style="height: 200px; object-fit: cover;" controls>
+                    <video src="<?= htmlspecialchars($product['file_name']) ?>" class="card-img-top" style="height: 200px; object-fit: cover;" controls>
                         Your browser does not support the video tag.
                     </video>
                 <?php else : ?>
@@ -26,7 +43,6 @@ $products = getAllProducts();
                     <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
                     <p class="card-text">$<?= number_format($product['price'], 2) ?></p>
                     <p class="card-text"><small class="text-muted">Best Seller: <?= $product['is_best_seller'] ? 'Yes' : 'No' ?></small></p>
-                    <a href="view.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-info">View</a>
                     <a href="edit.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                     <a href="delete.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>

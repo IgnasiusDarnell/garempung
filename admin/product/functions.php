@@ -31,6 +31,35 @@ function getAllProducts()
     return array_values($groupedProducts);
 }
 
+function getBestProducts()
+{
+    global $config;
+    $stmt = $config->query("SELECT p.id, p.name, p.price, p.description, p.is_best_seller, pm.file_name, pm.file_type 
+                            FROM products p 
+                            LEFT JOIN product_media pm ON p.id = pm.product_id 
+                            ORDER BY p.created_at DESC WHERE p.is_best_seller=1");
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $groupedProducts = [];
+    foreach ($products as $product) {
+        $productId = $product['id'];
+        if (!isset($groupedProducts[$productId])) {
+            $groupedProducts[$productId] = [
+                'id' => $productId,
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'description' => $product['description'],
+                'is_best_seller' => $product['is_best_seller'],
+                'images' => []
+            ];
+        }
+        if ($product['file_type'] === 'image') {
+            $groupedProducts[$productId]['images'][] = $product['file_name'];
+        }
+    }
+
+    return array_values($groupedProducts);
+}
 
 
 function getProductThumbnail($product_id)

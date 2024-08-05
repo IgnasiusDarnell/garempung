@@ -1,3 +1,4 @@
+
 <?php
 require_once 'functions.php';
 require_once 'header.php';
@@ -16,37 +17,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div id="product-creation-container">
-    <?php if ($product_id) : ?>
-        <h2 class="mt-4 mb-3">Upload Product Media</h2>
-        <form action="upload.php" class="dropzone" id="my-dropzone">
-            <input type="hidden" name="product_id" value="<?= $product_id ?>">
-            <div class="dz-message">Drop files here or click to upload.</div>
-        </form>
-        <div id="preview" class="mt-4 row"></div>
-        <a href="index.php" class="btn btn-secondary mt-3">Finish and Go to Product List</a>
-    <?php else : ?>
-        <h1 class="mb-4">Create Product</h1>
-        <form action="" method="POST" id="create-form">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price:</label>
-                <input type="number" class="form-control" id="price" name="price" step="0.01" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="is_best_seller" name="is_best_seller">
-                <label class="form-check-label" for="is_best_seller">Best Seller</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Product</button>
-        </form>
-    <?php endif; ?>
+<div class="container">
+    <div id="product-creation-container">
+        <?php if ($product_id) : ?>
+            <h2 class="mt-4 mb-3">Upload Product Media</h2>
+            <form action="upload.php" class="dropzone" id="my-dropzone">
+                <input type="hidden" name="product_id" value="<?= $product_id ?>">
+                <div class="dz-message">Drop files here or click to upload.</div>
+            </form>
+            <div id="preview" class="mt-4 row"></div>
+            <a href="index.php" class="btn btn-secondary mt-3">Finish and Go to Product List</a>
+        <?php else : ?>
+            <h1 class="mb-4">Create Product</h1>
+            <form action="" method="POST" id="create-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="number" class="form-control" id="price" name="price" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="is_best_seller" name="is_best_seller">
+                    <label class="form-check-label" for="is_best_seller">Best Seller</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Product</button>
+                <a class="btn btn-danger" href="./index.php">Cancel</a>
+            </form>
+        <?php endif; ?>
+    </div>
 </div>
 
 <script>

@@ -41,7 +41,7 @@ $products = getAllProducts();
                 <?php endif; ?>
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
-                    <p class="card-text">$<?= number_format($product['price'], 2) ?></p>
+                    <p class="card-text">Rp.<?= number_format($product['price']) ?></p>
                     <p class="card-text"><small class="text-muted">Best Seller: <?= $product['is_best_seller'] ? 'Yes' : 'No' ?></small></p>
                     <a href="edit.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                     <a href="delete.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>

@@ -5,27 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garempung</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index.css">    
+    <!-- Include Bootstrap CSS (Use a single version) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Include AOS CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- Your custom CSS (if any) -->
+    <style>
+        section {
+            padding-top: 60px;
+        }
+    </style>
 </head>
 
 <body>
+    <?php
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
+    // Include the configuration file
+    require "config.php";
+
+    // Prepare and execute the SQL query
+    $sql = "SELECT * FROM member WHERE id_member='1'";
+    $stmt = $config->prepare($sql);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    ?>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="#home">
                 <img src="assets/icon.png" alt="Garempung" style="height: 40px;">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav w-100 justify-content-around custom-nav-links">
-                    <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    <a class="nav-link" href="#home">Home</a>
                     <a class="nav-link" href="#produk">PRODUK</a>
                     <a class="nav-link" href="#about">TENTANG KAMI</a>
                     <a class="nav-link" href="#kontak">KONTAK</a>
@@ -36,9 +58,11 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Selamat Datang Di Garempung.ld<br>Stand Laptop Kayu Yang Elegan Dan<br>Fungsional</h1>
-            <button class="btn btn-pesan">Pesan Sekarang</button>
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h1 data-aos="fade-right" data-aos-delay="200">Selamat Datang Di Garempung.ld<br>Stand Laptop Kayu Yang Elegan Dan<br>Fungsional</h1>
+            <a href="https://wa.me/<?= htmlspecialchars($row['Whatsapp']); ?>?text=Halo kak,saya mau order" data-aos="fade-up" data-aos-delay="400" class="btn btn-success">
+                <i class="fa fa-whatsapp"></i> WhatsApp
+            </a>
         </div>
     </section>
 
@@ -125,35 +149,48 @@
         <h2 class="text-center mb-4">PRODUK UNGGULAN</h2>
         <div class="container">
             <div class="row">
-                <?php foreach ($groupedProducts as $product): ?>
+                <?php foreach ($groupedProducts as $product) : ?>
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <?php if (!empty($product['images'])): ?>
+                            <?php if (!empty($product['images'])) : ?>
                                 <!-- Carousel for images -->
-                                <div id="carousel<?= $product['id'] ?>" class="carousel slide">
+                                <div id="carousel<?= $product['id'] ?>" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
-                                        <?php foreach ($product['images'] as $index => $image): ?>
+                                        <?php foreach ($product['images'] as $index => $image) : ?>
                                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                                <img src="<?= htmlspecialchars($image) ?>" class="d-block w-100"
-                                                    alt="<?= htmlspecialchars($product['name']) ?>"
-                                                    style="height: 200px; object-fit: cover;">
-                                            </div>
+                                                <img src="<?= htmlspecialchars($image) ?>" class="d-block w-100" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 200px; object-fit: cover;">
+                                            </div> <?php
+                                                    // Enable error reporting for debugging
+                                                    ini_set('display_errors', 1);
+                                                    ini_set('display_startup_errors', 1);
+                                                    error_reporting(E_ALL);
+
+                                                    // Include the configuration file
+                                                    require "config.php";
+
+                                                    // Prepare and execute the SQL query
+                                                    $sql = "SELECT * FROM member WHERE id_member='1'";
+                                                    $stmt = $config->prepare($sql);
+                                                    $stmt->execute();
+                                                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                    ?>
                                         <?php endforeach; ?>
                                     </div>
-                                    <a class="carousel-control-prev" href="#carousel<?= $product['id'] ?>" role="button"
-                                        data-bs-slide="prev">
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $product['id'] ?>" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carousel<?= $product['id'] ?>" role="button"
-                                        data-bs-slide="next">
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $product['id'] ?>" data-bs-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Next</span>
-                                    </a>
+                                    </button>
                                 </div>
-                            <?php else: ?>
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                                    style="height: 200px;">
+                            <?php elseif (isset($product['file_type']) && $product['file_type'] === 'video') : ?>
+                                <video src="<?= htmlspecialchars($product['file_name']) ?>" class="card-img-top" style="height: 200px; object-fit: cover;" controls>
+                                    Your browser does not support the video tag.
+                                </video>
+                            <?php else : ?>
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
                                     <span class="text-muted">No image</span>
                                 </div>
                             <?php endif; ?>
@@ -166,7 +203,7 @@
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
                                 </div>
-                                <p class="card-text">$<?= number_format($product['price'], 2) ?></p>
+                                <p class="card-text">Rp.<?= number_format($product['price']) ?></p>
                                 <p class="card-text"><small class="text-muted">Best Seller:
                                         <?= $product['is_best_seller'] ? 'Yes' : 'No' ?></small></p>
                                 <a href="detail.php?id=<?= $product['id'] ?>" class="btn btn-primary">Lihat Selengkapnya</a>
@@ -174,6 +211,7 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <a href="produk.php">See more</a>
             </div>
         </div>
     </section>
@@ -183,20 +221,20 @@
             <div class="col-md-6 product-images">
                 <div class="row">
                     <div class="col-8">
-                        <img src="https://via.placeholder.com/380x492" alt="Image 1" class="img-fluid">
+                        <img src="assets/buatanlokal.png" alt="Image 1" class="img-fluid">
                     </div>
                     <div class="col-4 d-flex flex-column">
-                        <img src="https://via.placeholder.com/239x239" alt="Image 2" class="img-fluid mb-2">
-                        <img src="https://via.placeholder.com/239x240" alt="Image 3" class="img-fluid">
+                        <img src="assets/buatan lokal2.png" alt="Image 2" class="img-fluid mb-2">
+                        <img src="assets/buatan lokal3.png" alt="Image 3" class="img-fluid">
                     </div>
                 </div>
             </div>
             <div class="col-md-6 product-text">
                 <h2>Buatan Lokal</h2>
-                <p>Produk kami adalah hasil karya pengrajin lokal yang berpengalaman, mendukung ekonomi lokal dan
+                <p style="font-size: 18px;">Produk kami adalah hasil karya pengrajin lokal yang berpengalaman, mendukung ekonomi lokal dan
                     memastikan kontrol kualitas yang ketat.</p>
                 <h2>Estetika Minimalis</h2>
-                <p>Dengan desain minimalis yang modern, stand laptop Garempung.id tidak hanya fungsional tetapi juga
+                <p style="font-size: 18px;">Dengan desain minimalis yang modern, stand laptop Garempung.id tidak hanya fungsional tetapi juga
                     menambah keindahan meja kerja Anda. Tampilan kayu alami memberikan kesan hangat dan profesional.</p>
             </div>
         </div>
@@ -208,20 +246,20 @@
         <div class="row">
             <div class="col-md-6 product-text">
                 <h2>Visi </h2>
-                <p>Produk kami adalah hasil karya pengrajin lokal yang berpengalaman, mendukung ekonomi lokal dan
+                <p style="font-size: 18px;">Produk kami adalah hasil karya pengrajin lokal yang berpengalaman, mendukung ekonomi lokal dan
                     memastikan kontrol kualitas yang ketat.</p>
                 <h2>Misi</h2>
-                <p>Dengan desain minimalis yang modern, stand laptop Garempung.id tidak hanya fungsional tetapi juga
+                <p style="font-size: 18px;">Dengan desain minimalis yang modern, stand laptop Garempung.id tidak hanya fungsional tetapi juga
                     menambah keindahan meja kerja Anda. Tampilan kayu alami memberikan kesan hangat dan profesional.</p>
             </div>
             <div class="col-md-6 product-images">
                 <div class="row">
                     <div class="col-4 d-flex flex-column">
-                        <img src="https://via.placeholder.com/239x239" alt="Image 2" class="img-fluid mb-2">
-                        <img src="https://via.placeholder.com/239x240" alt="Image 3" class="img-fluid">
+                        <img src="assets/visimisi2.png" alt="Image 3" class="img-fluid">
+                        <img src="assets/visimisi3.png" alt="Image 2" class="img-fluid mb-2">
                     </div>
                     <div class="col-8">
-                        <img src="https://via.placeholder.com/380x492" alt="Image 1" class="img-fluid">
+                        <img src="assets/visimisi.png" alt="Image 1" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -235,12 +273,12 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <img src="assets/background.png" alt="Testimoni 1" class="testimonial-img">
+                    <img src="assets/Testimoni1.png" alt="Testimoni 1" class="testimonial-img">
                     <div class="testimonial-content">
-                        <img src="assets/owner.png" alt="Avatar" class="avatar">
+                        <img src="assets/ictest1.png" alt="Avatar" class="avatar">
                         <h5 class="mt-4 mb-1">Bang Yatma</h5>
                         <p class="text-muted small">Pedagang Asongan</p>
-                        <p>"Mantap, desainnya keren.!"</p>
+                        <p>Mantap, desainnya keren.!</p>
                         <div class="stars">
                             ★★★★☆
                         </div>
@@ -249,13 +287,12 @@
             </div>
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <img src="assets/background.png" alt="Testimoni 2" class="testimonial-img">
+                    <img src="assets/Testimoni2.png" alt="Testimoni 2" class="testimonial-img">
                     <div class="testimonial-content">
-                        <img src="assets/owner.png" alt="Avatar" class="avatar">
+                        <img src="assets/ictest2.png" alt="Avatar" class="avatar">
                         <h5 class="mt-4 mb-1">William</h5>
                         <p class="text-muted small">Ibu Rumah Tangga</p>
-                        <p>"Makasih Panta, aku sekarang berasa tinggal di apartment karena barang-barang yang terlihat
-                            mewah"</p>
+                        <p>Makasih Panto, aku sekarang berasa tinggal di apartment karena barang-barang yang terlihat mewah</p>
                         <div class="stars">
                             ★★★★☆
                         </div>
@@ -264,12 +301,12 @@
             </div>
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <img src="assets/background.png" alt="Testimoni 3" class="testimonial-img">
+                    <img src="assets/Testimoni3.png" alt="Testimoni 3" class="testimonial-img">
                     <div class="testimonial-content">
-                        <img src="assets/owner.png" alt="Avatar" class="avatar">
+                        <img src="assets/ictest3.png" alt="Avatar" class="avatar">
                         <h5 class="mt-4 mb-1">Adiba</h5>
                         <p class="text-muted small">Karyawan Swasta</p>
-                        <p>"Sangat bermanfaat untuk kantong saya yang tidak terlalu banyak"</p>
+                        <p>Sangat terjangkau untuk kantong saya yang tidak terlalu banyak</p>
                         <div class="stars">
                             ★★★★☆
                         </div>
@@ -296,33 +333,31 @@
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
-    <section class="contact-section text-center py-5">
-        <div class="container" id="about">
+    <section class="contact-section text-center py-5" id="about">
+        <div class="container">
             <h2 class="mb-2">TENTANG</h2>
             <h2 class="mb-4">GAREMPUNG.ID</h2>
             <img src="assets/owner.png" alt="Garempung" class="logo-img mb-3">
-            <p>Muhammad Mandaka Adyatma</p>
-            <p>(Owner Garempung.id)</p>
-            <p><?php echo htmlspecialchars($row['about']); ?></p>
+            <p style="font-size: 18px;">Muhammad Mandaka Adyatma</p>
+            <p style="font-size: 18px;">(Owner Garempung.id)</p>
+            <p style="font-size: 18px;"><?php echo htmlspecialchars($row['about']); ?></p>
         </div>
     </section>
     <!-- Contact Section -->
-    <section class="contact-section text-center py-5">
-        <div class="container" id="kontak">
+    <section class="contact-section text-center py-5" id="kontak">
+        <div class="container">
             <h2 class="mb-4">KONTAK</h2>
             <img src="assets/icon.png" alt="Garempung" class="logo mb-3" style="height: 100px;">
-            <p class="mb-4">Kami ingin mendengar dari Anda! Apakah Anda memiliki pertanyaan mengenai produk kami, ingin
+            <p class="mb-4" style="font-size: 18px;">Kami ingin mendengar dari Anda! Apakah Anda memiliki pertanyaan mengenai produk kami, ingin
                 memberikan umpan balik, atau butuh bantuan? Hubungi kami melalui formulir kontak di bawah ini atau
                 gunakan informasi kontak yang tersedia.</p>
             <div class="contact-info mb-3">
                 <p><i class="fa fa-whatsapp"></i> <?php echo htmlspecialchars($row['Whatsapp']); ?></p>
                 <p><i class="fa fa-envelope"></i> <?php echo htmlspecialchars($row['email']); ?></p>
                 <p><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24">
-                        <path fill="#070707"
-                            d="M22.567,4.538c-0.292-0.306-0.702-0.481-1.125-0.481H16.9c-0.46-2.286-2.481-4.014-4.9-4.014 S7.559,1.77,7.1,4.056H2.557c-0.422,0-0.832,0.176-1.125,0.481C1.139,4.844,0.982,5.264,1.001,5.691L1.71,20.945 c0.081,1.737,1.497,3.098,3.225,3.098h14.13c1.728,0,3.145-1.36,3.225-3.097L22.999,5.69C23.018,5.264,22.861,4.844,22.567,4.538z M12,2.043c1.307,0,2.41,0.845,2.82,2.014H9.18C9.59,2.888,10.693,2.043,12,2.043z M20.292,20.853 c-0.031,0.667-0.57,1.189-1.227,1.189H4.935c-0.657,0-1.196-0.522-1.227-1.19L3.021,6.056h17.959L20.292,20.853z">
+                        <path fill="#070707" d="M22.567,4.538c-0.292-0.306-0.702-0.481-1.125-0.481H16.9c-0.46-2.286-2.481-4.014-4.9-4.014 S7.559,1.77,7.1,4.056H2.557c-0.422,0-0.832,0.176-1.125,0.481C1.139,4.844,0.982,5.264,1.001,5.691L1.71,20.945 c0.081,1.737,1.497,3.098,3.225,3.098h14.13c1.728,0,3.145-1.36,3.225-3.097L22.999,5.69C23.018,5.264,22.861,4.844,22.567,4.538z M12,2.043c1.307,0,2.41,0.845,2.82,2.014H9.18C9.59,2.888,10.693,2.043,12,2.043z M20.292,20.853 c-0.031,0.667-0.57,1.189-1.227,1.189H4.935c-0.657,0-1.196-0.522-1.227-1.19L3.021,6.056h17.959L20.292,20.853z">
                         </path>
-                        <path
-                            d="M16.06,16.623c0,1.9-1.8,3.38-4.09,3.38c-2.491,0-4.25-1.77-4.25-1.77l1.1-1.75c0,0,1.99,1.49,3.15,1.49 c1.12,0,2.06-0.62,2.06-1.35c0-0.92-0.6-1.29-2.41-1.95c-1.55-0.57-3.46-1.27-3.46-3.43c0-1.88,1.67-3.3,3.88-3.3 c2.485,0,3.797,1.388,3.8,1.39l-1.04,1.72c-0.001,0-1.519-1.09-2.76-1.09c-1.08,0-1.86,0.54-1.86,1.28 c0,0.64,0.56,0.96,2.13,1.53C13.89,13.342,16.06,14.132,16.06,16.623z">
+                        <path d="M16.06,16.623c0,1.9-1.8,3.38-4.09,3.38c-2.491,0-4.25-1.77-4.25-1.77l1.1-1.75c0,0,1.99,1.49,3.15,1.49 c1.12,0,2.06-0.62,2.06-1.35c0-0.92-0.6-1.29-2.41-1.95c-1.55-0.57-3.46-1.27-3.46-3.43c0-1.88,1.67-3.3,3.88-3.3 c2.485,0,3.797,1.388,3.8,1.39l-1.04,1.72c-0.001,0-1.519-1.09-2.76-1.09c-1.08,0-1.86,0.54-1.86,1.28 c0,0.64,0.56,0.96,2.13,1.53C13.89,13.342,16.06,14.132,16.06,16.623z">
                         </path>
                     </svg> <?php echo htmlspecialchars($row['shopee']); ?></p>
                 <p><i class="fa fa-instagram"></i> <?php echo htmlspecialchars($row['instagram']); ?></p>
@@ -338,10 +373,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item w-100"
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d990.785614466309!2d110.7072344!3d-6.6292222!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e711ff1ca199bfd%3A0xcdb32b0bad656575!2sJl.%20Wonosari%2C%20Kabupaten%20Jepara%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1721631578215!5m2!1sid!2sid"
-                            style="border:0; height: 450px;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe class="embed-responsive-item w-100" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d990.785614466309!2d110.7072344!3d-6.6292222!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e711ff1ca199bfd%3A0xcdb32b0bad656575!2sJl.%20Wonosari%2C%20Kabupaten%20Jepara%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1721631578215!5m2!1sid!2sid" style="border:0; height: 450px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -354,8 +386,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
-                    <img src="assets/icon.png" alt="Garempung Logo" class="logo img-fluid mb-3"
-                        style="max-height: 100px;">
+                    <img src="assets/icon.png" alt="Garempung Logo" class="logo img-fluid mb-3" style="max-height: 100px;">
                     <p class="small">Hubungi Kami. Kami Selalu Siap Mendengar Dari Anda. Jika Anda Memiliki Pertanyaan
                         Atau Memerlukan Informasi Lebih Lanjut Tentang Produk Kami, Jangan Ragu Untuk Menghubungi Kami
                         Melalui Form Di Bawah Ini Atau Menggunakan Informasi Kontak Di Bagian Bawah Halaman Ini</p>
@@ -399,20 +430,67 @@
 
     <!-- Rest of the content... -->
 
-    <script src="js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Include Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <!-- Include Bootstrap JavaScript and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include Dropzone.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Include AOS JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Your custom JavaScript -->
+    <script src="js/index.js"></script>
+    <script>
+        AOS.init(); // Initialize AOS animations
+
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('.navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        function setActiveLink() {
+            const scrollPosition = window.scrollY + 500; // Adjust offset for navbar
+
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('load', setActiveLink);
+
+        // Smooth scrolling for navbar links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

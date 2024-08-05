@@ -35,7 +35,7 @@ $stmtImages->execute();
 $additionalImages = $stmtImages->fetchAll(PDO::FETCH_COLUMN);
 
 // Merge images
-$images = array_merge($images, array_map(function($fileName) use ($basePath) {
+$images = array_merge($images, array_map(function ($fileName) use ($basePath) {
     return $basePath . $fileName;
 }, $additionalImages));
 ?>
@@ -47,28 +47,33 @@ $images = array_merge($images, array_map(function($fileName) use ($basePath) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $product ? htmlspecialchars($product['name']) : 'Product Not Found' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             background-color: #f8f9fa;
         }
+
         .product-container {
             background-color: #ffffff;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
+
         .carousel-item img {
             height: 400px;
             object-fit: cover;
             border-radius: 15px 15px 0 0;
         }
+
         .product-info {
             padding: 2rem;
         }
+
         .price {
             font-size: 1.5rem;
             color: #28a745;
         }
+
         .best-seller-badge {
             background-color: #ffc107;
             color: #000;
@@ -89,13 +94,13 @@ $images = array_merge($images, array_map(function($fileName) use ($basePath) {
     </nav>
 
     <div class="container my-5">
-        <?php if ($product): ?>
+        <?php if ($product) : ?>
             <div class="row product-container">
                 <div class="col-lg-6 p-0">
-                    <?php if (!empty($images)): ?>
+                    <?php if (!empty($images)) : ?>
                         <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                <?php foreach ($images as $index => $image): ?>
+                                <?php foreach ($images as $index => $image) : ?>
                                     <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                         <img src="<?= htmlspecialchars($image) ?>" class="d-block w-100" alt="<?= htmlspecialchars($product['name']) ?>">
                                     </div>
@@ -110,40 +115,59 @@ $images = array_merge($images, array_map(function($fileName) use ($basePath) {
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
-                    <?php else: ?>
+                    <?php else : ?>
                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
                             <span class="text-muted">No image available</span>
                         </div>
                     <?php endif; ?>
                 </div>
+                <?php
+                // Enable error reporting for debugging
+                ini_set('display_errors', 1);
+                ini_set('display_startup_errors', 1);
+                error_reporting(E_ALL);
+
+                // Include the configuration file
+                require "config.php";
+
+                // Prepare and execute the SQL query
+                $sql = "SELECT * FROM member WHERE id_member='1'";
+                $stmt = $config->prepare($sql);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                ?>
+
                 <div class="col-lg-6 product-info">
                     <h1 class="mb-4"><?= htmlspecialchars($product['name']) ?></h1>
-                    <p class="price mb-3">$<?= number_format($product['price'], 2) ?></p>
-                    <?php if ($product['is_best_seller']): ?>
+                    <p class="price mb-3">Rp.<?= number_format($product['price']) ?></p>
+                    <?php if ($product['is_best_seller']) : ?>
                         <span class="best-seller-badge mb-3 d-inline-block">
                             <i class="fas fa-award me-1"></i> Best Seller
                         </span>
                     <?php endif; ?>
                     <p class="mb-4"><?= htmlspecialchars($product['description']) ?></p>
-                    <a href="combine.php" class="btn btn-primary">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Home
+                    <a href="index.php" class="btn btn-primary">
+                        <i class="fa fa-arrow-left me-2"></i>Back to Home
+                    </a>
+                    <a href="https://wa.me/<?= htmlspecialchars($row['Whatsapp']); ?>?text=Saya ingin order kak untuk product <?= htmlspecialchars($product['name']); ?>" class="btn btn-success">
+                        <i class="fa fa-whatsapp"></i> WhatsApp
                     </a>
                 </div>
-            </div>
-        <?php else: ?>
-            <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Product Not Found</h4>
-                <p>We're sorry, but the product you're looking for doesn't seem to exist or has been removed.</p>
-                <hr>
-                <p class="mb-0">Please check the product ID and try again, or return to the home page to browse our available products.</p>
-            </div>
-            <a href="combine.php" class="btn btn-primary">
-                <i class="fas fa-home me-2"></i>Return to Home
-            </a>
-        <?php endif; ?>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <?php else : ?>
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Product Not Found</h4>
+                    <p>We're sorry, but the product you're looking for doesn't seem to exist or has been removed.</p>
+                    <hr>
+                    <p class="mb-0">Please check the product ID and try again, or return to the home page to browse our available products.</p>
+                </div>
+                <a href="index.php" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>Return to Home
+                </a>
+            <?php endif; ?>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

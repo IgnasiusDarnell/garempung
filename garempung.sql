@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2024 at 06:12 PM
+-- Generation Time: Aug 05, 2024 at 03:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,8 +39,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_login`, `username`, `password`, `id_member`) VALUES
-(1, 'admin', 'admin', 1),
-(2, 'nell', 'nell', 2);
+(4, 'garempung', 'garempungjaya', 1);
 
 -- --------------------------------------------------------
 
@@ -55,7 +54,7 @@ CREATE TABLE `member` (
   `shopee` varchar(50) NOT NULL,
   `facebook` varchar(50) NOT NULL,
   `instagram` varchar(50) NOT NULL,
-  `about` varchar(255) NOT NULL
+  `about` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -63,7 +62,7 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`id_member`, `Whatsapp`, `email`, `shopee`, `facebook`, `instagram`, `about`) VALUES
-(1, '08888123321', 'garempung@mail.com', '@garempung', '@garempung', '@garempung', 'Garempung.id didirikan pada tahun 2024 oleh Muhamm');
+(1, '+62895363662997', 'email@gmail.com', 'ulilshopee', 'ulilfacebook', 'testing', 'Garempung.id didirikan pada tahun 2024 oleh Muhammad Mandaka Adyatma, mahasiswa Manajemen Bisnis di Universitas Negeri Yogyakarta yang berasal dari Jepara. Terinspirasi oleh kecintaannya terhadap kerajinan kayu dan kebutuhan ergonomis pengguna laptop, Muhammad mendirikan Garempung sebagai usaha yang dibangun sejak masih kuliah. Garempung.id merupakan anak perusahaan dari Vista Homedeco, yang telah dikenal bergerak di bidang furniture dan kerajinan tangan. Dengan pengalaman dan jaringan yang dimiliki Vista Homedeco, Garempung hadir dengan menawarkan produk kerajinan tangan berbahan kayu solid berkualitas tinggi. Pada tahun 2024, Garempung.id meluncurkan dua produk utama: stand laptop kayu kecil dan stand laptop kayu besar, yang dapat dibongkar pasang dan mudah dibawa. Produk ini segera mendapatkan sambutan positif karena desain ergonomis, kualitas material, dan harga terjangkau. Visi Garempung.id adalah menjadi pemimpin dalam industri aksesori laptop dengan fokus pada kenyamanan pengguna dan keindahan desain. Misi kami adalah menyediakan produk berkualitas tinggi yang ramah lingkungan dan praktis, serta mampu meningkatkan pengalaman kerja pengguna laptop. Kami berkomitmen untuk menggunakan bahan-bahan ramah lingkungan dan proses produksi yang berkelanjutan. Setiap produk dibuat dengan standar kualitas tinggi, menggunakan kayu dari pemasok yang beretika. Garempung.id, sebagai anak perusahaan Vista Homedeco, terus berinovasi dalam menciptakan produk yang bermanfaat dan estetis. Dengan komitmen terhadap kualitas, kenyamanan, dan keberlanjutan, Garempung.id siap untuk memberikan yang terbaik bagi pelanggan.');
 
 -- --------------------------------------------------------
 
@@ -86,10 +85,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `description`, `is_best_seller`, `created_at`, `updated_at`) VALUES
-(10, 'bambang', 12.00, 'asd', 0, '2024-07-31 15:21:27', '2024-07-31 15:21:27'),
-(13, 'slmae', 2000.00, 'enak pol ', 0, '2024-07-31 15:30:11', '2024-07-31 15:31:46'),
-(15, 'Darnell ignasius', 12.00, 'e', 1, '2024-07-31 15:37:31', '2024-07-31 15:37:31'),
-(16, 'pekok', 20000.00, 'enak lho su celeng', 1, '2024-07-31 15:50:49', '2024-07-31 16:07:19');
+(19, 'bambang', 20000.00, 'enak pol to yo lek', 1, '2024-07-31 19:10:43', '2024-08-01 08:24:33'),
+(22, 'NonameCC02', 123123.00, 'eadas', 1, '2024-08-01 09:16:16', '2024-08-01 09:24:24'),
+(23, 'cihuy', 12.00, 'sada', 1, '2024-08-01 09:16:59', '2024-08-01 09:33:30'),
+(24, 'budi', 12.00, 'as', 0, '2024-08-01 09:20:05', '2024-08-01 09:20:05'),
+(26, 'ulil bau', 90000.00, 'opolah', 0, '2024-08-01 12:18:26', '2024-08-01 12:18:26');
 
 -- --------------------------------------------------------
 
@@ -109,17 +109,14 @@ CREATE TABLE `product_media` (
 --
 
 INSERT INTO `product_media` (`id`, `product_id`, `file_name`, `file_type`) VALUES
-(17, 10, 'images/66aa5680b2296_whatsapp.png', 'image'),
-(18, 10, 'images/66aa5689e5e55_whatsapp.png', 'image'),
-(19, 10, 'images/66aa568d2abc1_instagram.png', 'image'),
-(20, 13, 'images/66aa588b338f0_shopee.png', 'image'),
-(22, 13, 'images/66aa589faa62e_whatsapp.png', 'image'),
-(24, 15, 'images/66aa5b3e7853a_instagram.png', 'image'),
-(25, 15, 'images/66aa5c07ef2fa_whatsapp.png', 'image'),
-(26, 16, 'images/66aa5d6182add_instagram.png', 'image'),
-(30, 16, 'images/66aa606e2e7ae_lelang.png', 'image'),
-(31, 16, 'images/66aa608196d2d_whatsapp.png', 'image'),
-(32, 16, 'images/66aa61bde1924_cool-fun.gif', 'image');
+(33, 19, 'images/66aa8c358e08b_cool-fun.gif', 'image'),
+(37, 19, 'images/66ab477be27b5_lelang.png', 'image'),
+(38, 19, 'images/66ab477be27f1_shopee.png', 'image'),
+(39, 22, 'images/66ab526478c78_cool-fun.gif', 'image'),
+(40, 23, 'images/66ab52945555e_shopee.png', 'image'),
+(41, 24, 'images/66ab53492bae8_instagram.png', 'image'),
+(43, 23, 'images/66ab56515f657_Cuplikan layar 2024-06-10 175015.png', 'image'),
+(45, 26, 'images/66ab7d1b50562_Cuplikan layar 2024-06-24 185002.png', 'image');
 
 --
 -- Indexes for dumped tables
@@ -159,7 +156,7 @@ ALTER TABLE `product_media`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `member`
@@ -171,13 +168,13 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `product_media`
 --
 ALTER TABLE `product_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables
